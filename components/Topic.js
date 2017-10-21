@@ -77,13 +77,7 @@ listenForItems(itemsRef) {
     return (
       <KeyboardAvoidingView style={styles.listContainer} behavior="padding" >
         <StatusBar title="Topic - DØK Channel" />
-        <ListView
-        dataSource={this.state.dataSource}
-        renderRow={this._renderItem.bind(this)}
         
-        
-        enableEmptySections={true}
-        style={styles.listview}/>
 
         <TouchableHighlight onPress={this.props.onPress}>
           <View style={styles.li}>
@@ -92,6 +86,14 @@ listenForItems(itemsRef) {
           </View>
         </TouchableHighlight>
 
+        <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this._renderItem.bind(this)}
+        
+        
+        enableEmptySections={true}
+        style={styles.listview}/>
+        
         <TextInput
             style={{flex: 1}}
         />
