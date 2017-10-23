@@ -76,7 +76,7 @@ class AddQuestion extends Component {
     )
   }
   _addItem() {
-    this.itemsRef.push({ title: this.state.text });
+    this.itemsRef.push({ title: this.state.text, timestamp: firebase.database.ServerValue.TIMESTAMP});
   }
 }
 

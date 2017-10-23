@@ -33,7 +33,7 @@ class HomePage extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
     };
-    this.itemsRef = this.getRef().child('items');
+    this.itemsRef = this.getRef().child('items').orderByChild('timestamp')
   }
   getRef() {
     return firebase.database().ref();
@@ -54,7 +54,7 @@ class HomePage extends Component {
       });
 
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(items)
+        dataSource: this.state.dataSource.cloneWithRows(items.reverse())
       });
     });
   }

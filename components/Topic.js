@@ -24,6 +24,7 @@ const {
   TextInputlars,
 } = ReactNative;
 
+
 //definnere hvad classen hedder og hvad den extender
 
 class Topic extends Component {
@@ -38,7 +39,9 @@ class Topic extends Component {
     // this.state = { loading: false };
      this.fireRef = firebase.storage().ref('items')
     //  this.AnswersRef = firebase.storage().ref('items/'+this.props.item._key+'/answers')
+    this.addref = firebase.database().ref().child('items/'+this.props.item._key+'/answers')
     this.itemsRef = firebase.database().ref().child('items/'+this.props.item._key+'/answers')
+    
     // this.itemsRef = this.getRef().child('items');
     
      console.log(this.itemsRef)
@@ -49,9 +52,9 @@ class Topic extends Component {
   }
 
   _addAnswer() {
-    this.itemsRef.push({ title: this.state.text });
+    this.addref.push({ title: this.state.text, timestamp: firebase.database.ServerValue.TIMESTAMP});
   }
-
+  
   componentDidMount() {     
     this.listenForItems(this.itemsRef);
 }
@@ -93,7 +96,7 @@ listenForItems(itemsRef) {
         
         enableEmptySections={true}
         style={styles.listview}/>
-        
+
         <TextInput
             style={{flex: 1}}
         />

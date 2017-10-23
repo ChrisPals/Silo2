@@ -16,7 +16,7 @@ var styles = StyleSheet.create({
     backgroundColor: '#f2f2f2',
     flex: 1
   },
-  listview: {
+  reversed: {
     flex: 1,
   },
   li: {
