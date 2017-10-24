@@ -12,6 +12,7 @@ import NotificationSettings from './components/NotificationSettings';
 import SendFeedback from './components/SendFeedback';
 import GuideToIcons from './components/GuideToIcons';
 import AddQuestion from './components/AddQuestion';
+import Knowledge from './components/Knowledge';
 import BottomToolbar from 'react-native-bottom-toolbar';
 
 
@@ -117,6 +118,13 @@ export default class App extends Component {
               initial={!this.state.hasToken}
               key='AddQuestion'
               title='AddQuestion'
+            />
+            <Scene
+              component={Knowledge}
+              hideNavBar={true}
+              initial={!this.state.hasToken}
+              key='Knowledge'
+              title='Knowledge'
             />
           </Scene>
         </Router>

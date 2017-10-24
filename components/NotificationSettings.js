@@ -40,23 +40,24 @@ class NotificationSettings extends Component {
        
 
 
-            <BottomToolbar>
-              <BottomToolbar.Action
-                title="Home"
-                onPress={(index, propsOfThisAction) =>
-                  Actions.HomePage()}
-              />
-              <BottomToolbar.Action
-                title="Noti"
-                onPress={(index, propsOfThisAction) =>
-                  console.warn(index + ' ' + JSON.stringify(propsOfThisAction))}
-              />
-              <BottomToolbar.Action
-              title="Menu"
-              onPress={(index, propsOfThisAction) =>
-                Actions.Menu()}
-              />
-            </BottomToolbar>
+        <BottomToolbar>
+        <BottomToolbar.Action
+          title="Home"
+          onPress={(index, propsOfThisAction) =>
+            Actions.HomePage()}
+        />
+        <BottomToolbar.Action
+        title="Knowledge"
+        onPress={(index, propsOfThisAction) =>
+            Actions.Knowledge()}
+
+        />
+        <BottomToolbar.Action
+        title="Menu"
+        onPress={(index, propsOfThisAction) =>
+          Actions.Menu()}
+        />
+      </BottomToolbar>
       </KeyboardAvoidingView>
 
     )

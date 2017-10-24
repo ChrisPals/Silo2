@@ -8,6 +8,7 @@ import ListItem from './ListItem';
 import styles from '../styles';
 import Menu from './Menu';
 import AddQuestion from './AddQuestion';
+
 import BottomToolbar from 'react-native-bottom-toolbar'
 
 const {
@@ -33,7 +34,7 @@ class HomePage extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
     };
-    this.itemsRef = this.getRef().child('items').orderByChild('timestamp')
+    this.itemsRef = this.getRef().child('items').limitToFirst(5)
   }
   getRef() {
     return firebase.database().ref();
@@ -79,9 +80,10 @@ class HomePage extends Component {
               Actions.HomePage()}
           />
           <BottomToolbar.Action
-          title="Noti"
+          title="Knowledge"
           onPress={(index, propsOfThisAction) =>
-            Actions.Authentication()}
+              Actions.Knowledge()}
+
           />
           <BottomToolbar.Action
           title="Menu"

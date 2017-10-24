@@ -112,8 +112,8 @@ var styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10
   },
-  alignRight: {
-    flex: 1,
+  Button: {
+    backgroundColor: '#000',
   },
   panelConstrainer: {
     flex: 1,

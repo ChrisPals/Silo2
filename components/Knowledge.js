@@ -6,15 +6,9 @@ import StatusBar from './StatusBar';
 import ActionButton from './ActionButton';
 import ListItem from './ListItem';
 import styles from '../styles';
-import HomePage from './HomePage';
-import About from './About';
-import BottomToolbar from 'react-native-bottom-toolbar';
-import FAQ from './FAQ';
-import GuideToIcons from './GuideToIcons';
-import NotificationSettings from './NotificationSettings';
-import SendFeedback from './SendFeedback';
-
-
+import Menu from './Menu';
+import AddQuestion from './AddQuestion';
+import BottomToolbar from 'react-native-bottom-toolbar'
 
 const {
   AsyncStorage,
@@ -25,34 +19,27 @@ const {
   View,
   KeyboardAvoidingView,
   TouchableHighlight,
-  Alert,
-  Lars,
+  Alert
 } = ReactNative;
 
 //definnere hvad classen hedder og hvad den extender
 
-class Menu extends Component {
+class Knowledge extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      type: '',      
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       })
     };
-    this.itemsRef = this.getRef().child('items');
-  }
-  async userLogout() {
-    try {
-      await AsyncStorage.removeItem('id_token');
-      Alert.alert('Log Out Successfully!');
-
-    Actions.Authentication();
-    } catch (error) {
-      console.log('AsyncStorage error: ' + error.message);
-    }
+    this.itemsRef = this.getRef().child('items')
   }
   getRef() {
     return firebase.database().ref();
+  }
+  componentDidMount() {     
+      this.listenForItems(this.itemsRef);
   }
   listenForItems(itemsRef) {
     itemsRef.on('value', (snap) => {
@@ -67,42 +54,24 @@ class Menu extends Component {
       });
 
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(items)
+        dataSource: this.state.dataSource.cloneWithRows(items.reverse())
       });
-
-    });
-  }
-  componentDidMount() {
-    this.listenForItems(this.itemsRef);
-  }
-
-  userLogout() {
-    firebase.auth().signOut()
-    .then(() => {
-      AsyncStorage.removeItem('user');
-      Alert.alert('Log Out Successfully!');
-      Actions.Authentication();
-    })
-    .catch((error) => {
-      console.log('Signout error: ' + error.message);
     });
   }
 
+
+  
   render() {
     return (
       <KeyboardAvoidingView style={styles.listContainer} behavior="padding" >
-        <StatusBar title="Menu" />
-      
-        <ActionButton onPress={Actions.About} title="About" />
-        <ActionButton onPress={Actions.FAQ} title="FAQ" />
-        <ActionButton onPress={Actions.GuideToIcons} title="Guide to Icons" />
-        <ActionButton onPress={Actions.NotificationSettings} title="Notification settings" />
-        <ActionButton onPress={Actions.SendFeedback} title="Send feedback" />
-        
-        <TextInput
-        style={{flex: 1}}
-        />
-        <ActionButton onPress={this.userLogout.bind(this)} title="Log Out"/>
+        <StatusBar title="Knowledge" />
+        <ListView
+        dataSource={this.state.dataSource}
+        renderRow={this._renderItem.bind(this)}
+        enableEmptySections={true}
+        style={styles.listview}/>
+          
+        <ActionButton onPress={Actions.AddQuestion} title="Add Question" />
         <BottomToolbar>
         <BottomToolbar.Action
           title="Home"
@@ -127,25 +96,20 @@ class Menu extends Component {
   _addItem() {
     this.itemsRef.push({ title: this.state.text });
   }
-
   _renderItem(item) {
     const onPress = () => {
-      Alert.alert(
-        'Show: '+item.title+'?',
-        null,
-        [
-          {text: 'Yes', onPress: (text) => this.itemsRef.child(item._key).remove()},
-          {text: 'Cancel', onPress: (text) => console.log('Cancelled')}
-        ],
-        {cancelable: false}
-      );
+      Actions.Topic({ title: item.title, item: item});
+        // null,
+        // [
+        //   {text: 'Yes', onPress: (text) => Actions.Topic()},
+        //   {text: 'Cancel', onPress: (text) => console.log('Cancelled')}
+        // ],
+        // {cancelable: false}
     };
-
     return (
       <ListItem item={item} onPress={onPress} />
     );
   }
 }
-
 //Exporterer til app.js så den kan bruges
-module.exports = Menu;
+module.exports = Knowledge;
